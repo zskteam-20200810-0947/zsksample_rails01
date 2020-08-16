@@ -56,8 +56,9 @@ RSpec.describe '/users', type: :request do
   describe 'POST /create' do
     context 'Userモデルへの保存に成功したとき' do
       it 'Userモデルのレコードが１つ増加する' do
-        expect { post users_path, params: { user: user_params } }.to
-        change(User, :count).by(1)
+        expect do
+          post users_path, params: { user: user_params }
+        end.to change(User, :count).by(1)
       end
 
       it 'ユーザー詳細ページ(show)にリダイレクトされる' do
