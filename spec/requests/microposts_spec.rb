@@ -1,8 +1,9 @@
 require 'rails_helper'
 RSpec.describe '/microposts', type: :request do
-  let(:micropost) { Micropost.create(content: 'sample', user_id: '1') }
-  let(:un_micropost_params) { { content: ' ', user_id: '1' } }
-  let(:micropost_params) { { content: 'sample2', user_id: '1' } }
+  let(:user) { User.create(name: 'Taro', email: 'taro@example.com') }
+  let(:micropost) { Micropost.create(content: 'sample', user_id: user.id) }
+  let(:un_micropost_params) { { content: ' ', user_id: user.id } }
+  let(:micropost_params) { { content: 'sample2', user_id: user.id } }
 
   describe 'GET /index' do
     it 'indexアクションにリクエストすると正常にレスポンスが返ってくる' do

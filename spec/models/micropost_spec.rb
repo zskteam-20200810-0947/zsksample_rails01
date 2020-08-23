@@ -2,7 +2,8 @@ require 'rails_helper'
 require 'securerandom'
 
 RSpec.describe Micropost, type: :model do
-  let(:micropost) { Micropost.new(content: 'Post') }
+  let(:user) { User.create(name: 'Taro', email: 'taro@example.com') }
+  let(:micropost) { Micropost.new(content: 'Post', user_id: user.id) }
   let(:over_140) { SecureRandom.alphanumeric(141) }
 
   it 'is valid with a content' do
