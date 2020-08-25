@@ -15,6 +15,22 @@ RSpec.describe '/users', type: :request do
       get users_path
       expect(response.status).to eq 200
     end
+
+    context 'pegenation' do
+      before do
+        11.times { User.create(name: 'abc', email: 'abc@abc.com') }
+        User.create(name: 'def', email: 'def@def.com')
+      end
+      it '1ページ目には最後に生成したユーザーが表示されていない' do
+        get users_path, params: { page: 1 }
+        expect(response.body).not_to include 'def'
+      end
+
+      it '2ページ目には最後に生成したユーザーが表示されている' do
+        get users_path, params: { page: 2 }
+        expect(response.body).to include 'def'
+      end
+    end
   end
 
   describe 'GET /show' do
