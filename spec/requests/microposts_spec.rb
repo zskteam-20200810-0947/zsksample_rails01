@@ -27,12 +27,12 @@ RSpec.describe '/microposts', type: :request do
 
       it '1ページ目には最後に生成したMicropostがない' do
         get microposts_path, params: { page: 1 }
-        expect(response.body).not_to include "pagination_test"
+        expect(response.body).not_to include 'pagination_test'
       end
 
       it '2ページ目には最後に生成したMicropostがある' do
         get microposts_path, params: { page: 2 }
-        expect(response.body).to include "pagination_test"
+        expect(response.body).to include 'pagination_test'
       end
     end
   end
