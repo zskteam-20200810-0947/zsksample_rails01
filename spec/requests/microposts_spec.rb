@@ -6,14 +6,34 @@ RSpec.describe '/microposts', type: :request do
   let(:micropost_params) { { content: 'sample2', user_id: user.id } }
 
   describe 'GET /index' do
-    it 'indexアクションにリクエストすると正常にレスポンスが返ってくる' do
-      get microposts_url
-      expect(response).to be_successful
+    context 'indexアクションへリクエストしたとき' do
+      it 'indexアクションにリクエストすると正常にレスポンスが返ってくる' do
+        get microposts_url
+        expect(response).to be_successful
+      end
+
+      it 'indexアクションにリクエストすると200レスポンスが返ってくる' do
+        get microposts_url
+        expect(response.status).to eq 200
+      end
     end
 
-    it 'indexアクションにリクエストすると200レスポンスが返ってくる' do
-      get microposts_url
-      expect(response.status).to eq 200
+    context 'pagination' do
+      before do
+        user
+        5.times { Micropost.create(content: 'sample', user_id: user.id) }
+        Micropost.create(content: 'pagination_test', user_id: user.id)
+      end
+
+      it '1ページ目には最後に生成したMicropostがない' do
+        get microposts_path, params: { page: 1 }
+        expect(response.body).not_to include 'pagination_test'
+      end
+
+      it '2ページ目には最後に生成したMicropostがある' do
+        get microposts_path, params: { page: 2 }
+        expect(response.body).to include 'pagination_test'
+      end
     end
   end
 
