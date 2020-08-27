@@ -24,7 +24,7 @@ RSpec.describe '/microposts', type: :request do
         5.times { Micropost.create(content: 'sample', user_id: user.id) }
         Micropost.create(content: 'pagination_test', user_id: user.id)
       end
-
+      
       it '1ページ目には最後に生成したMicropostがない' do
         get microposts_path, params: { page: 1 }
         expect(response.body).not_to include 'pagination_test'
@@ -39,12 +39,14 @@ RSpec.describe '/microposts', type: :request do
 
   describe 'GET /show' do
     it 'showアクションにリクエストすると正常にレスポンスが返ってくる' do
-      get micropost_url(micropost)
+      micropost.avatar = 'sample.jpeg'
+      get microposts_path(micropost)
       expect(response).to be_successful
     end
 
     it 'showアクションにリクエストすると200レスポンスが返ってくる' do
-      get micropost_url(micropost)
+      micropost.avatar = 'sample.jpeg'
+      get microposts_path(micropost)
       expect(response.status).to eq 200
     end
   end
