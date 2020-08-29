@@ -46,7 +46,7 @@ RSpec.describe '/microposts', type: :request do
 
     it 'showアクションにリクエストすると200レスポンスが返ってくる' do
       micropost.avatar = 'sample.jpeg'
-      get microposts_path(micropost)
+      get microposts_path(micropost)   
       expect(response.status).to eq 200
     end
   end
